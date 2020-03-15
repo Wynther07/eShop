@@ -12,25 +12,38 @@ import com.lawrencekotlin.eshop.R
 
 
 class CategoryAdapter(pContext: Context, pCategories: List<Category>) : BaseAdapter() {
-
+    //passed in parameters to local variables
     val wContext = pContext
     val wCategories = pCategories
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override fun getView(pPosition: Int, pConvertView: View?, pParent: ViewGroup?): View {
         val categoryView: View
+        val holder : ViewHolder
+        println("pPosition:$pPosition pConvertView:$pConvertView, pParent:$pParent")
+        // Initializes/Reuse instances loaded into the view/grid holder
+        if (pConvertView == null) {
+            //load data to view
+            categoryView = LayoutInflater.from(wContext)
+                .inflate(R.layout.category_list_item, null)
+            //load data to view golder
+            holder = ViewHolder() //view instance holder
+            holder.catImage = categoryView.findViewById(R.id.catImage)
+            holder.catName = categoryView.findViewById(R.id.catName)
+            categoryView.tag = holder //sets the tag to view entry
+            println("initialize view, $pConvertView")
+        } else {
+            holder = pConvertView.tag as ViewHolder //getTag and set as ViewHolder
+            categoryView = pConvertView //assign to catView
+            println("instance in holder, $pConvertView")
+        }
 
-        categoryView = LayoutInflater.from(wContext).inflate(R.layout.category_list_item, null)
-        val categoryImage: ImageView = categoryView.findViewById(R.id.catImage)
-        val categoryName: TextView = categoryView.findViewById(R.id.catName)
-        println("Heavy Computing")
-
-        val category = wCategories[position]
-
-        val resourceId =
-            wContext.resources.getIdentifier(category.catImage, "drawable", wContext.packageName)
-        categoryImage.setImageResource(resourceId)
-        println(resourceId)
-        categoryName.text = category.catTitle
+        println("wContext:$wContext, wCategories:$wCategories")
+        val category = wCategories[pPosition]
+        println("wCat[Pos]:$category")
+        val resourceId = wContext.resources.getIdentifier(category.catImage,
+            "drawable", wContext.packageName)
+        holder.catImage?.setImageResource(resourceId)
+        holder.catName?.text = category.catTitle
         return categoryView
     }
 
@@ -44,5 +57,10 @@ class CategoryAdapter(pContext: Context, pCategories: List<Category>) : BaseAdap
 
     override fun getCount(): Int {
         return wCategories.count()
+    }
+
+    private class ViewHolder {
+        var catImage: ImageView? = null
+        var catName: TextView? = null
     }
 }
