@@ -3,6 +3,7 @@ package com.lawrencekotlin.eshop.Controller
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.lawrencekotlin.eshop.Adapter.CategoryAdapter
 import com.lawrencekotlin.eshop.Model.Category
 import com.lawrencekotlin.eshop.R
@@ -29,5 +30,11 @@ class MainActivity : AppCompatActivity() {
         catAdapter = CategoryAdapter(this, DataService.categories)
         catListView.adapter = catAdapter
 
+        catListView.setOnItemClickListener { adapterView, view, i, l ->
+            val category = DataService.categories[i]
+            //notification message, more like error message
+            Toast.makeText(this,"You clicked n the ${category.catTitle} cell",
+                Toast.LENGTH_SHORT).show()
+        }
     }
 }
