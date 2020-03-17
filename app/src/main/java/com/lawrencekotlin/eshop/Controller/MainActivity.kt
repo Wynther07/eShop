@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lawrencekotlin.eshop.Adapter.CategoryAdapter
+import com.lawrencekotlin.eshop.Adapter.CategoryRecycleAdapter
 import com.lawrencekotlin.eshop.Model.Category
 import com.lawrencekotlin.eshop.R
 import com.lawrencekotlin.eshop.Services.DataService
@@ -16,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
 //    lateinit var catAdapter : ArrayAdapter<Category>
-    lateinit var catAdapter : CategoryAdapter
+    lateinit var catAdapter : CategoryRecycleAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,14 +29,12 @@ class MainActivity : AppCompatActivity() {
 //            android.R.layout.simple_list_item_1, DataService.categories)
 //        //initialize array adapter
 //        catListView.adapter = catAdapter
-        catAdapter = CategoryAdapter(this, DataService.categories)
+        catAdapter = CategoryRecycleAdapter(this,DataService.categories)
         catListView.adapter = catAdapter
 
-        catListView.setOnItemClickListener { adapterView, view, i, l ->
-            val category = DataService.categories[i]
-            //notification message, more like error message
-            Toast.makeText(this,"You clicked n the ${category.catTitle} cell",
-                Toast.LENGTH_SHORT).show()
+        val layoutManager = LinearLayoutManager(this)
+        catListView.layoutManager = layoutManager
+        catListView.setHasFixedSize(true)
         }
     }
-}
+
