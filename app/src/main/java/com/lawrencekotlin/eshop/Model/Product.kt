@@ -3,8 +3,7 @@ package com.lawrencekotlin.eshop.Model
 import android.os.Parcel
 import android.os.Parcelable
 
-class Product(var title: String?, var price: String?, var image: String?) : Parcelable {
-
+class Product constructor(var title: String?, var price: String?, var image: String?) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
