@@ -11,44 +11,32 @@ import com.lawrencekotlin.eshop.Model.Category
 import com.lawrencekotlin.eshop.R
 
 
-class CategoryAdapter(pContext: Context, pCategories: List<Category>) : BaseAdapter() {
-    //passed in parameters to local variables
-    val wContext = pContext
-    val wCategories = pCategories
+class CategoryAdapter(val context: Context, val categories: List<Category>) : BaseAdapter(){
 
-    override fun getView(pPosition: Int, pConvertView: View?, pParent: ViewGroup?): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val categoryView: View
         val holder : ViewHolder
-        println("pPosition:$pPosition pConvertView:$pConvertView, pParent:$pParent")
-        // Initializes/Reuse instances loaded into the view/grid holder
-        if (pConvertView == null) {
-            //load data to view
-            categoryView = LayoutInflater.from(wContext)
-                .inflate(R.layout.category_list_item, null)
-            //load data to view golder
-            holder = ViewHolder() //view instance holder
-            holder.catImage = categoryView.findViewById(R.id.catImage)
-            holder.catName = categoryView.findViewById(R.id.catName)
-            categoryView.tag = holder //sets the tag to view entry
-            println("initialize view, $pConvertView")
+
+        if (convertView == null) {
+            categoryView = LayoutInflater.from(context).inflate(R.layout.category_list_item, null)
+            holder = ViewHolder()
+          //  holder.categoryImage = categoryView.findViewById(R.id.categoryImage)
+           // holder.categoryName = categoryView.findViewById(R.id.categoryName)
+            categoryView.tag = holder
         } else {
-            holder = pConvertView.tag as ViewHolder //getTag and set as ViewHolder
-            categoryView = pConvertView //assign to catView
-            println("instance in holder, $pConvertView")
+            holder = convertView.tag as ViewHolder
+            categoryView = convertView
         }
 
-        println("wContext:$wContext, wCategories:$wCategories")
-        val category = wCategories[pPosition]
-        println("wCat[Pos]:$category")
-        val resourceId = wContext.resources.getIdentifier(category.catImage,
-            "drawable", wContext.packageName)
-        holder.catImage?.setImageResource(resourceId)
-        holder.catName?.text = category.catTitle
+        val category = categories[position]
+        val resourceId = context.resources.getIdentifier(category.image, "drawable", context.packageName)
+        holder.categoryImage?.setImageResource(resourceId)
+        holder.categoryName?.text = category.title
         return categoryView
     }
 
     override fun getItem(position: Int): Any {
-        return wCategories[position]
+        return categories[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -56,11 +44,11 @@ class CategoryAdapter(pContext: Context, pCategories: List<Category>) : BaseAdap
     }
 
     override fun getCount(): Int {
-        return wCategories.count()
+        return categories.count()
     }
 
     private class ViewHolder {
-        var catImage: ImageView? = null
-        var catName: TextView? = null
+        var categoryImage: ImageView? = null
+        var categoryName: TextView? = null
     }
 }

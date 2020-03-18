@@ -1,8 +1,7 @@
 package com.lawrencekotlin.eshop.Model
 
-class Category (val catTitle:String, val catImage: String) {
-    //Return title instead of address
+class Category(val title: String, val image: String) {
     override fun toString(): String {
-        return catTitle
+        return title
     }
 }

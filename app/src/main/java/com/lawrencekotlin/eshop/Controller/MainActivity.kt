@@ -1,15 +1,14 @@
 package com.lawrencekotlin.eshop.Controller
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lawrencekotlin.eshop.Adapter.CategoryAdapter
 import com.lawrencekotlin.eshop.Adapter.CategoryRecycleAdapter
-import com.lawrencekotlin.eshop.Model.Category
+//import com.lawrencekotlin.eshop.Utilities.EXTRA_CATEGORY
 import com.lawrencekotlin.eshop.R
 import com.lawrencekotlin.eshop.Services.DataService
+import com.lawrencekotlin.eshop.Utilities.EXTRA_CATEGORY
 import kotlinx.android.synthetic.main.activity_main.*
 
 //ListViews are legacy features
@@ -17,24 +16,21 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-//    lateinit var catAdapter : ArrayAdapter<Category>
-    lateinit var catAdapter : CategoryRecycleAdapter
+    lateinit var adapter : CategoryRecycleAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-//        //context, adapter type, data source
-//        catAdapter = ArrayAdapter(this,
-//            android.R.layout.simple_list_item_1, DataService.categories)
-//        //initialize array adapter
-//        catListView.adapter = catAdapter
-        catAdapter = CategoryRecycleAdapter(this,DataService.categories)
-        catListView.adapter = catAdapter
+        adapter = CategoryRecycleAdapter(this, DataService.categories) { category ->
+            val productIntent = Intent(this, ProductActivity::class.java)
+            productIntent.putExtra(EXTRA_CATEGORY, category.title)
+            startActivity(productIntent)
+        }
+        categoryListView.adapter = adapter
 
         val layoutManager = LinearLayoutManager(this)
-        catListView.layoutManager = layoutManager
-        catListView.setHasFixedSize(true)
-        }
+        categoryListView.layoutManager = layoutManager
+        categoryListView.setHasFixedSize(true)
     }
+}
 
