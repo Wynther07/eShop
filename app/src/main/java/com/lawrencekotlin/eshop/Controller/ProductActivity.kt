@@ -14,14 +14,14 @@ import kotlinx.android.synthetic.main.activity_product.*
 
 class ProductActivity : AppCompatActivity() {
 
-    lateinit var adapter : ProductsAdapter
+    lateinit var adapter: ProductsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
 
         val categoryType = intent.getStringExtra(EXTRA_CATEGORY)
-        adapter = ProductsAdapter(this, DataService.getProducts(categoryType)){ product ->
+        adapter = ProductsAdapter(this, DataService.getProducts(categoryType)) { product ->
             val productDetailIntent = Intent(this, ProductDetailActivity::class.java)
             productDetailIntent.putExtra(EXTRA_PRODUCT, product)
             startActivity(productDetailIntent)

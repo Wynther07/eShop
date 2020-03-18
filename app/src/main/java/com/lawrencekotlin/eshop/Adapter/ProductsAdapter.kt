@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lawrencekotlin.eshop.Model.Product
 import com.lawrencekotlin.eshop.R
 
-class ProductsAdapter(val context: Context, val products: List<Product>, val itemClick: (Product) -> Unit) : RecyclerView.Adapter<ProductsAdapter.ProductHolder>(){
+class ProductsAdapter(
+    val context: Context,
+    val products: List<Product>,
+    val itemClick: (Product) -> Unit
+) : RecyclerView.Adapter<ProductsAdapter.ProductHolder>() {
 
     override fun getItemCount(): Int {
         return products.count()
@@ -25,15 +29,18 @@ class ProductsAdapter(val context: Context, val products: List<Product>, val ite
         holder?.bindProduct(products[position], context)
     }
 
-    inner class ProductHolder(itemView: View?, val itemClick: (Product) -> Unit) : RecyclerView.ViewHolder(
-        itemView!!) {
+    inner class ProductHolder(itemView: View?, val itemClick: (Product) -> Unit) :
+        RecyclerView.ViewHolder(
+            itemView!!
+        ) {
 
         val productImage = itemView?.findViewById<ImageView>(R.id.productImage)
         val productName = itemView?.findViewById<TextView>(R.id.productName)
         val productPrice = itemView?.findViewById<TextView>(R.id.productPrice)
 
         fun bindProduct(product: Product, context: Context) {
-            val resourceId = context.resources.getIdentifier(product.image, "drawable", context.packageName)
+            val resourceId =
+                context.resources.getIdentifier(product.image, "drawable", context.packageName)
             productImage?.setImageResource(resourceId)
             productName?.text = product.title
             productPrice?.text = product.price
